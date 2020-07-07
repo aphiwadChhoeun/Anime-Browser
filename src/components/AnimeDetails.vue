@@ -8,7 +8,7 @@
           <img :src="anime.image_url" />
         </figure>
       </div>
-      <div class="media-content">
+      <div class="media-content is-hidden-mobile">
         <h1 class="title">{{ anime.title }}</h1>
         <h2 class="subtitle">{{ anime.title_english }}</h2>
         <div class="level">
