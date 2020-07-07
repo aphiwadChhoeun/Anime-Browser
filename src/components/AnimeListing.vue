@@ -1,6 +1,6 @@
 <template>
   <div class="anime__listing__container">
-    <section class="section wrapper">
+    <section class="section wrapper" ref="wrapper">
       <div class="inner__wrapper scrollable">
         <div class="container">
           <div class="columns is-multiline">
@@ -20,6 +20,7 @@
 <script>
 import jikanjs from "jikanjs";
 import AnimeListItem from "@/components/AnimeListItem";
+import { gsap } from "gsap";
 
 export default {
   name: "AnimeListing",
@@ -34,12 +35,27 @@ export default {
     };
   },
 
-  created() {
-    jikanjs
-      .loadTop("anime", 1, "upcoming")
-      .then((resp) => resp.top)
-      .then((data) => {
-        this.animes = data;
+  mounted() {
+    let d = {
+      val: 0,
+    };
+    gsap
+      .to(d, {
+        val: 2.5,
+        duration: 1,
+        delay: 0.5,
+        ease: "power3.out",
+        onUpdate: () => {
+          this.$refs.wrapper.style.boxShadow = `0 0 ${d.val}rem rgba(42, 54, 59, 0.2)`;
+        },
+      })
+      .then(() => {
+        jikanjs
+          .loadTop("anime", 1, "upcoming")
+          .then((resp) => resp.top)
+          .then((data) => {
+            this.animes = data;
+          });
       });
   },
 
@@ -68,10 +84,8 @@ export default {
     width: 80vw;
     min-height: 70vh;
     padding: 2rem;
-    background: adjust-color($light, $alpha: -0.7);
-    box-shadow: 0rem -0.5rem 1rem $light, -0.5rem 0rem 1rem $light,
-      0rem 0.8rem 1rem adjust-color($dark, $alpha: -0.8),
-      0.8rem 0rem 1rem adjust-color($dark, $alpha: -0.8);
+    background: rgba(245, 245, 245, 0.2);
+    // box-shadow: 0rem 0rem 1rem rgba(42, 54, 59, 0.2);
     border-radius: 1rem;
 
     .inner__wrapper {
