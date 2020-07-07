@@ -1,57 +1,51 @@
 <template>
-  <div class="details__container" ref="container">
-    <section class="hero is-primary"></section>
+  <div class="columns outer__wrapper">
+    <section class="sidebar column is-one-third">
+      <div class="sidebar__background has-background-primary"></div>
 
-    <div id="hero__content" class="media">
-      <div class="media-left">
-        <figure class="image anime__cover" ref="cover">
-          <img :src="anime.image_url" />
-        </figure>
-      </div>
-      <div class="media-content is-hidden-mobile">
-        <h1 class="title is-family-secondary">{{ anime.title }}</h1>
-        <h2 class="subtitle is-family-secondary">{{ anime.title_english }}</h2>
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item">
+      <div class="columns is-multiline">
+        <div class="column is-full">
+          <figure class="image anime__cover" ref="cover">
+            <img :src="anime.image_url" />
+          </figure>
+        </div>
+        <div class="column hero__content is-full is-hidden-mobile">
+          <h1 class="title is-family-secondary">{{ anime.title }}</h1>
+          <h2 class="subtitle is-family-secondary">
+            {{ anime.title_english }}
+          </h2>
+          <div class="row">
+            <div class="col" v-if="anime.favorites">
               <span class="mdi mdi-heart">{{ anime.favorites }}</span>
             </div>
-            <div class="level-item">
+            <div class="col" v-if="anime.aired">
               Air Date:
               <span class="tag is-dark">{{ anime.aired.string }}</span>
             </div>
           </div>
-        </div>
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item">
+          <div class="row">
+            <div class="col" v-if="anime.type">
               Type:<span>{{ anime.type }}</span>
             </div>
-            <div class="level-item">
+            <div class="col" v-if="anime.premiered">
               {{ anime.premiered }}
             </div>
-            <div class="level-item">
+            <div class="col" v-if="anime.status">
               Status:<span>{{ anime.status }}</span>
             </div>
           </div>
-        </div>
-        <div class="level" v-if="anime.episodes">
-          <div class="level-left">
-            <div class="level-item">
+          <div class="row" v-if="anime.episodes">
+            <div class="col">
               Episodes:<span>{{ anime.episodes }}</span>
             </div>
           </div>
-        </div>
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item">
+          <div class="row">
+            <div class="col" v-if="anime.rating">
               {{ anime.rating }}
             </div>
           </div>
-        </div>
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item">
+          <div class="row">
+            <div class="col" v-if="anime.genres">
               Genre:
               <span
                 v-for="genre in anime.genres"
@@ -61,10 +55,8 @@
               >
             </div>
           </div>
-        </div>
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item">
+          <div class="row">
+            <div class="col" v-if="anime.url">
               <a
                 :href="anime.url"
                 target="_blank"
@@ -76,14 +68,12 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <section class="content">
-      <div class="container scrollable">
-        <p>{{ anime.background }}</p>
-        <anime-related :related-data="anime.related" />
-      </div>
     </section>
+
+    <div class="details__content inner__wrapper column scrollable">
+      <p v-if="anime.background">{{ anime.background }}</p>
+      <anime-related :related-data="anime.related" />
+    </div>
   </div>
 </template>
 
@@ -111,7 +101,6 @@ export default {
 
   mounted() {
     const bound = this.$refs.cover.getBoundingClientRect();
-
     gsap.from(this.$refs.cover, {
       x: this.meta.x - bound.x,
       y: this.meta.y - bound.y,
@@ -127,68 +116,91 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables";
 
-.details__container {
-  .level {
-    margin: 0;
-  }
+.outer__wrapper {
+  margin: 0;
 
-  .tag {
-    margin-right: 0.2rem;
+  .sidebar {
+    height: 80vh;
+    position: relative;
+    padding: 0;
 
-    &:last-child {
-      margin-right: 0;
+    @media screen and (max-width: 768px) {
+      height: 50%;
+    }
+
+    .columns {
+      margin: 0;
+
+      .column {
+        position: relative;
+
+        &.hero__content {
+          padding: 0 2rem 1rem 2rem;
+
+          .row {
+            display: flex;
+            margin-bottom: 0.2rem;
+
+            .col {
+              flex: auto;
+            }
+          }
+
+          .tag {
+            margin-right: 0.2rem;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+
+      .anime__cover {
+        margin: 0 auto;
+        width: 240px;
+        height: 240px;
+        overflow: hidden;
+        box-shadow: 0rem 0.5rem 1rem adjust-color($color: $dark, $alpha: -0.5);
+        background-image: radial-gradient(
+          circle farthest-corner at 50.3% 44.5%,
+          rgba(116, 147, 179, 1) 0%,
+          rgba(62, 83, 104, 1) 100.2%
+        );
+
+        img {
+          object-fit: cover;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+
+    .sidebar__background {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateX(-100%);
+      animation: slideRight 0.5s ease-out forwards;
     }
   }
 
-  .anime__cover {
-    width: 240px;
-    height: 240px;
-    overflow: hidden;
-    box-shadow: 0.5rem 0.5rem 1.4rem adjust-color($color: $dark, $alpha: -0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: radial-gradient(
-      circle farthest-corner at 50.3% 44.5%,
-      rgba(116, 147, 179, 1) 0%,
-      rgba(62, 83, 104, 1) 100.2%
-    );
+  .inner__wrapper {
+    margin: 2rem 2rem 2rem 0 !important;
 
-    img {
-      object-fit: cover;
+    @media screen and (max-width: 768px) {
+      margin: 0 !important;
+      padding: 0;
+      height: calc(42vh - 4rem) !important;
     }
-  }
 
-  .hero {
-    height: 350px;
-    transform: translateY(-100%);
-    animation: slideDown 0.5s ease-out 0.5s forwards;
-    box-shadow: -1rem 0.2rem 2rem adjust-color($dark, $alpha: -0.5),
-      inset 0 -0.2rem 2rem adjust-color($dark, $alpha: -0.8);
-  }
-
-  #hero__content {
-    position: absolute;
-    left: 10%;
-    top: 4rem;
-    width: 80vw;
-    height: auto;
-
-    .media-content {
-      transform: translateY(-150%);
-      animation: slideDown 0.5s ease-out 300ms forwards;
-    }
-  }
-
-  .content {
-    transform: translateY(150%);
-    animation: slideUp 0.5s ease-out 300ms forwards;
-    min-height: 400px;
-
-    .container {
-      padding: 2rem 1rem;
-      height: 50vh;
-      overflow-y: scroll;
+    &.details__content {
+      transform: translateX(100%);
+      animation: slideLeft 0.5s ease-out forwards;
 
       .outlink {
         span {
@@ -199,23 +211,23 @@ export default {
   }
 }
 
-@keyframes slideDown {
+@keyframes slideRight {
   0%,
   100% {
     transform: none;
   }
   from {
-    transform: translateY(-100%);
+    transform: translateX(-100%);
   }
 }
 
-@keyframes slideUp {
+@keyframes slideLeft {
   0%,
   100% {
     transform: none;
   }
   from {
-    transform: translateY(150%);
+    transform: translateX(100%);
   }
 }
 </style>

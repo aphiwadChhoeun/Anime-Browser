@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view />
+    <div class="page__container">
+      <section class="section wrapper">
+        <router-view />
+      </section>
+    </div>
     <footer-site />
   </div>
 </template>
@@ -14,3 +18,5 @@ export default {
   components: { FooterSite },
 };
 </script>
+
+<style lang="scss" scoped></style>

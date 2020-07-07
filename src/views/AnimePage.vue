@@ -1,7 +1,5 @@
 <template>
-  <div id="anime__page" class="page">
-    <anime-details :anime="anime" :meta="meta" v-if="anime" />
-  </div>
+  <anime-details :anime="anime" :meta="meta" v-if="anime" />
 </template>
 
 <script>
