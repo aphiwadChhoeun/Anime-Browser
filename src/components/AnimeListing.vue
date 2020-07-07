@@ -44,8 +44,11 @@ export default {
   },
 
   methods: {
-    onAnimeClick(id) {
-      this.$router.push({ name: "Anime", params: { id: id } });
+    onAnimeClick(id, x, y, width, height) {
+      this.$router.push({
+        name: "Anime",
+        params: { id: id, x, y, width, height },
+      });
     },
   },
 };

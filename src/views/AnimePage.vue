@@ -1,6 +1,6 @@
 <template>
   <div id="anime__page" class="page">
-    <anime-details :anime="anime" v-if="anime" />
+    <anime-details :anime="anime" :meta="meta" v-if="anime" />
   </div>
 </template>
 
@@ -17,6 +17,12 @@ export default {
 
   data() {
     return {
+      meta: {
+        x: this.$route.params.x,
+        y: this.$route.params.y,
+        width: this.$route.params.width,
+        height: this.$route.params.height,
+      },
       anime: null,
     };
   },

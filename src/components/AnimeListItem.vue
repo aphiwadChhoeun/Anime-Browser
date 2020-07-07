@@ -1,6 +1,6 @@
 <template>
   <div class="column is-2">
-    <div class="list__item" @click="onClick">
+    <div class="list__item" @click="onClick" ref="item">
       <figure class="image is-square">
         <img :src="anime.image_url" :alt="anime.title" />
       </figure>
@@ -20,7 +20,15 @@ export default {
 
   methods: {
     onClick() {
-      this.$emit("anime-clicked", this.anime.mal_id);
+      const bound = this.$refs.item.getBoundingClientRect();
+      this.$emit(
+        "anime-clicked",
+        this.anime.mal_id,
+        bound.x,
+        bound.y,
+        bound.width,
+        bound.height
+      );
     },
   },
 };
