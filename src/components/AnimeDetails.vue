@@ -1,5 +1,5 @@
 <template>
-  <div class="details__container">
+  <div class="details__container" ref="container">
     <section class="hero is-primary"></section>
 
     <div id="hero__content" class="media">
@@ -9,12 +9,16 @@
         </figure>
       </div>
       <div class="media-content is-hidden-mobile">
-        <h1 class="title">{{ anime.title }}</h1>
-        <h2 class="subtitle">{{ anime.title_english }}</h2>
+        <h1 class="title is-family-secondary">{{ anime.title }}</h1>
+        <h2 class="subtitle is-family-secondary">{{ anime.title_english }}</h2>
         <div class="level">
           <div class="level-left">
             <div class="level-item">
               <span class="mdi mdi-heart">{{ anime.favorites }}</span>
+            </div>
+            <div class="level-item">
+              Air Date:
+              <span class="tag is-dark">{{ anime.aired.string }}</span>
             </div>
           </div>
         </div>
@@ -31,7 +35,7 @@
             </div>
           </div>
         </div>
-        <div class="level">
+        <div class="level" v-if="anime.episodes">
           <div class="level-left">
             <div class="level-item">
               Episodes:<span>{{ anime.episodes }}</span>
@@ -58,22 +62,43 @@
             </div>
           </div>
         </div>
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <a
+                :href="anime.url"
+                target="_blank"
+                rel="noopener"
+                class="button is-dark is-small is-outlined outlink"
+                ><span class="mdi mdi-link-box-variant"></span
+              ></a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <section class="content">
-      <div class="container">
+      <div class="container scrollable">
         <p>{{ anime.background }}</p>
+        <anime-related :related-data="anime.related" />
       </div>
     </section>
   </div>
 </template>
 
 <script>
+/* eslint 'no-unused-vars': 'off',
+'no-unreachable': 'off' */
 import { gsap } from "gsap";
+import AnimeRelated from "@/components/AnimeRelated";
 
 export default {
   name: "AnimeDetails",
+
+  components: {
+    AnimeRelated,
+  },
 
   props: {
     meta: {
@@ -120,6 +145,14 @@ export default {
     height: 240px;
     overflow: hidden;
     box-shadow: 0.5rem 0.5rem 1.4rem adjust-color($color: $dark, $alpha: -0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(
+      circle farthest-corner at 50.3% 44.5%,
+      rgba(116, 147, 179, 1) 0%,
+      rgba(62, 83, 104, 1) 100.2%
+    );
 
     img {
       object-fit: cover;
@@ -130,12 +163,14 @@ export default {
     height: 350px;
     transform: translateY(-100%);
     animation: slideDown 0.5s ease-out 0.5s forwards;
+    box-shadow: -1rem 0.2rem 2rem adjust-color($dark, $alpha: -0.5),
+      inset 0 -0.2rem 2rem adjust-color($dark, $alpha: -0.8);
   }
 
   #hero__content {
     position: absolute;
     left: 10%;
-    top: 2rem;
+    top: 4rem;
     width: 80vw;
     height: auto;
 
@@ -151,7 +186,15 @@ export default {
     min-height: 400px;
 
     .container {
-      padding: 2rem 0;
+      padding: 2rem 1rem;
+      height: 50vh;
+      overflow-y: scroll;
+
+      .outlink {
+        span {
+          font-size: 4rem;
+        }
+      }
     }
   }
 }

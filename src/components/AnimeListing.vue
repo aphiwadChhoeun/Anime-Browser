@@ -1,7 +1,7 @@
 <template>
   <div class="anime__listing__container">
     <section class="section wrapper">
-      <div class="inner__wrapper">
+      <div class="inner__wrapper scrollable">
         <div class="container">
           <div class="columns is-multiline">
             <anime-list-item
@@ -36,7 +36,7 @@ export default {
 
   created() {
     jikanjs
-      .loadTop("anime")
+      .loadTop("anime", 1, "upcoming")
       .then((resp) => resp.top)
       .then((data) => {
         this.animes = data;
@@ -66,35 +66,20 @@ export default {
 
   .wrapper {
     width: 80vw;
-    padding: 1rem;
+    min-height: 70vh;
+    padding: 2rem;
     background: adjust-color($light, $alpha: -0.7);
+    box-shadow: 0rem -0.5rem 1rem $light, -0.5rem 0rem 1rem $light,
+      0rem 0.8rem 1rem adjust-color($dark, $alpha: -0.8),
+      0.8rem 0rem 1rem adjust-color($dark, $alpha: -0.8);
     border-radius: 1rem;
 
     .inner__wrapper {
       width: 100%;
       height: 70vh;
-      padding: 1rem;
+      padding: 2rem;
       overflow-x: hidden;
       overflow-y: scroll;
-
-      /* The emerging W3C standard
-   that is currently Firefox-only */
-
-      scrollbar-width: thin;
-      scrollbar-color: #343434 transparent;
-
-      /* Works on Chrome/Edge/Safari */
-      &::-webkit-scrollbar {
-        width: 12px;
-      }
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        background-color: #343434;
-        border-radius: 20px;
-        border: 3px solid #343434;
-      }
     }
   }
 }

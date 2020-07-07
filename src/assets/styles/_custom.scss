@@ -23,4 +23,25 @@ body {
       rgba(255, 216, 194, 1) 92.2%
     );
   }
+
+  .scrollable {
+    /* The emerging W3C standard
+   that is currently Firefox-only */
+
+    scrollbar-width: thin;
+    scrollbar-color: #343434 transparent;
+
+    /* Works on Chrome/Edge/Safari */
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #343434;
+      border-radius: 20px;
+      border: 3px solid #343434;
+    }
+  }
 }
