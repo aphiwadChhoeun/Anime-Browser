@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="parent" ref="parent">
     <div class="container">
       <div class="columns is-multiline">
         <anime-list-item
@@ -16,6 +16,7 @@
 <script>
 import jikanjs from "jikanjs";
 import AnimeListItem from "@/components/AnimeListItem";
+import { gsap } from "gsap";
 
 export default {
   name: "AnimeListing",
@@ -36,6 +37,11 @@ export default {
       .then((resp) => resp.top)
       .then((data) => {
         this.animes = data;
+        gsap.to(this.$refs.parent, {
+          opacity: 1,
+          duration: 0.5,
+          ease: "power3.out",
+        });
       });
   },
 
@@ -50,4 +56,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.parent {
+  opacity: 0;
+}
+</style>

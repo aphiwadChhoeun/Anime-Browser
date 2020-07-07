@@ -1,6 +1,6 @@
 <template>
   <div class="columns outer__wrapper">
-    <section class="sidebar column is-one-third">
+    <section class="sidebar column is-one-third" ref="sidebar">
       <div class="sidebar__background has-background-primary"></div>
 
       <div class="columns is-multiline">
@@ -41,7 +41,7 @@
           </div>
           <div class="row">
             <div class="col" v-if="anime.rating">
-              {{ anime.rating }}
+              Rating: {{ anime.rating }}
             </div>
           </div>
           <div class="row">
@@ -70,7 +70,10 @@
       </div>
     </section>
 
-    <div class="details__content inner__wrapper column scrollable">
+    <div
+      class="details__content inner__wrapper column scrollable"
+      ref="content"
+    >
       <p v-if="anime.background">{{ anime.background }}</p>
       <anime-related :related-data="anime.related" />
     </div>
@@ -78,8 +81,6 @@
 </template>
 
 <script>
-/* eslint 'no-unused-vars': 'off',
-'no-unreachable': 'off' */
 import { gsap } from "gsap";
 import AnimeRelated from "@/components/AnimeRelated";
 
@@ -109,6 +110,23 @@ export default {
       duration: 0.5,
       ease: "power3.out",
     });
+  },
+
+  methods: {
+    onLeaveRoute() {
+      return Promise.all([
+        gsap.to(this.$refs.sidebar, {
+          x: "-=100%",
+          duration: 0.5,
+          ease: "power3.out",
+        }),
+        gsap.to(this.$refs.content, {
+          opacity: "0",
+          duration: 0.5,
+          ease: "power3.out",
+        }),
+      ]);
+    },
   },
 };
 </script>
