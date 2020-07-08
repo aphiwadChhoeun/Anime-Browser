@@ -33,7 +33,7 @@ export default {
 
   mounted() {
     jikanjs
-      .loadTop("anime", 1, "upcoming")
+      .loadTop("anime", 1, "favorite")
       .then((resp) => resp.top)
       .then((data) => {
         this.animes = data;

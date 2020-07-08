@@ -76,6 +76,7 @@
     >
       <p v-if="anime.background">{{ anime.background }}</p>
       <anime-related :related-data="anime.related" />
+      <pictures-listing :id="anime.mal_id" />
     </div>
   </div>
 </template>
@@ -83,12 +84,14 @@
 <script>
 import { gsap } from "gsap";
 import AnimeRelated from "@/components/AnimeRelated";
+import PicturesListing from "@/components/PicturesListing";
 
 export default {
   name: "AnimeDetails",
 
   components: {
     AnimeRelated,
+    PicturesListing,
   },
 
   props: {
