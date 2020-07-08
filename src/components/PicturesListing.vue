@@ -40,8 +40,8 @@ export default {
 @import "@/assets/styles/_variables";
 
 .pictures__container {
-  margin-top: 1rem;
-  
+  margin-top: 3rem;
+
   .image {
     box-shadow: 0 0.5rem 1rem adjust-color($dark, $alpha: -0.8);
 
