@@ -110,7 +110,7 @@ export default {
       y: this.meta.y - bound.y,
       width: this.meta.width,
       height: this.meta.height,
-      duration: 0.5,
+      duration: 0.8,
       ease: "power3.out",
     });
   },
@@ -205,6 +205,7 @@ export default {
       top: 0;
       width: 100%;
       height: 100%;
+      transform-origin: left;
       transform: translateX(-100%);
       animation: slideRight 0.5s ease-out forwards;
     }
@@ -237,8 +238,15 @@ export default {
   100% {
     transform: none;
   }
+
+  30% {
+    transform: scaleX(1.1);
+  }
+  60% {
+    transform: scaleX(0.98);
+  }
   from {
-    transform: translateX(-100%);
+    transform: scaleX(0);
   }
 }
 
